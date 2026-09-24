@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="AI Smart Cooking Assistant banner">
+  <rect width="1200" height="300" fill="#0d1117"/>
+  <rect x="0" y="0" width="12" height="300" fill="#f59e0b"/>
+  <g stroke="#1f2937" stroke-width="1">
+    <line x1="60" y1="240" x2="1140" y2="240"/>
+  </g>
+  <text x="60" y="88" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#f59e0b">APPLIED AI RESEARCH + FULL-STACK ENGINEERING</text>
+  <text x="60" y="155" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff">AI Smart Cooking Assistant</text>
+  <text x="60" y="200" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="22" fill="#9ca3af">Multi-modal, nutrition-aware recipe recommendation from the ingredients you already own</text>
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#e5e7eb">
+    <rect x="60" y="256" width="86" height="28" rx="14" fill="none" stroke="#f59e0b"/>
+    <text x="80" y="275">Text</text>
+    <rect x="160" y="256" width="86" height="28" rx="14" fill="none" stroke="#f59e0b"/>
+    <text x="180" y="275">Voice</text>
+    <rect x="260" y="256" width="86" height="28" rx="14" fill="none" stroke="#f59e0b"/>
+    <text x="280" y="275">Image</text>
+  </g>
+  <text x="1140" y="275" text-anchor="end" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#6b7280">RecipeAI | 2026</text>
+</svg>
