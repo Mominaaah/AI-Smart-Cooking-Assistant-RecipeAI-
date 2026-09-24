@@ -12,21 +12,42 @@
 ![Track](https://img.shields.io/badge/RESEARCH_TRACK-APPLIED_AI-black?style=for-the-badge)
 ![Year](https://img.shields.io/badge/YEAR-2026-black?style=for-the-badge)
 
+![Latency](https://img.shields.io/badge/LATENCY_TARGETS-7_OF_8_MET-2ea44f?style=for-the-badge)
+![Acceptance](https://img.shields.io/badge/ACCEPTANCE_TESTS-5_OF_5_PASSED-2ea44f?style=for-the-badge)
+
 ![Node.js](https://img.shields.io/badge/Node.js-555555?style=flat-square)
 ![Express](https://img.shields.io/badge/Express.js-555555?style=flat-square)
 ![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-555555?style=flat-square)
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-555555?style=flat-square)
 ![ML](https://img.shields.io/badge/ML_+_NLP-555555?style=flat-square)
 ![Web Speech API](https://img.shields.io/badge/Web_Speech_API-555555?style=flat-square)
+![JavaScript](https://img.shields.io/badge/JavaScript-555555?style=flat-square)
 
-[Research vs Engineering](#2-the-cognitive-split-academic-rigor-vs-enterprise-utility) | [System and Assets](#3-system-interaction-and-asset-showcase) | [My Contribution](#4-individual-contribution-matrix) | [Validation](#5-quantified-validation-metrics) | [Citation and Reproducibility](#6-citation-and-reproducibility)
+[Recruiter Summary](#recruiter-summary-30-second-read) | [Research vs Engineering](#2-the-cognitive-split-academic-rigor-vs-enterprise-utility) | [System and Assets](#3-system-interaction-and-asset-showcase) | [Contribution](#4-team-collaboration-and-delivery) | [Validation](#5-quantified-validation-metrics) | [Citation and Reproducibility](#6-citation-and-reproducibility)
 
 </div>
 
 ---
 
 > [!NOTE]
-> **Documentation hub only.** The source code lives in a private repository. This repository documents the problem, research framing, architecture, evidence of a working system, test results, and my individual ownership within a team project. Source access can be discussed on request.
+> **Documentation hub only.** The source code lives in a private repository. This repository documents the problem, research framing, architecture, proof of a working system, test results, and my individual ownership within a team project. Source access can be discussed on request.
+
+## Recruiter Summary (30-second read)
+
+| | |
+|---|---|
+| **What it is** | A full-stack web application that turns the ingredients a user already has (typed, spoken or photographed) into ranked, personalized recipes with nutrition data and ingredient substitutions |
+| **Why it matters** | Reduces household food waste (UN SDG 12) and supports healthier eating (UN SDG 3) |
+| **My role** | Core contributor across the full lifecycle (ideation, AI integration, backend, frontend, multi-modal input, authentication) and **sole owner of the Cloudinary cloud image-storage integration** |
+| **Stack** | Node.js, Express.js, MongoDB Atlas, Cloudinary, JavaScript, HTML/CSS, machine learning (content-based filtering, NLP), Web Speech API |
+| **Result** | 5 of 5 acceptance tests passed; 7 of 8 latency targets met; text-to-recipe in 4.3 s end to end against a 5 s target; one target missed and analysed (image path, 7.1 s) |
+| **Skills shown** | REST API design, ML model integration, cloud services, NoSQL data modelling, multi-modal input handling, test design, technical documentation, team delivery |
+
+| 3 | 10 | 8 | 5 | 11 |
+|:---:|:---:|:---:|:---:|:---:|
+| input modalities | functional requirements | latency test cases | acceptance tests | diagrams and screenshots |
+
+---
 
 ## 1. Global Project Overview
 
@@ -34,11 +55,12 @@
 
 **Solution.** The Smart Cooking Assistant inverts the workflow: the user starts with the ingredients they already own, entered by **text, voice or photo**, and the system returns ranked, personalized recipes with instructions, ingredient substitutions and macro-level nutrition.
 
+**Who it serves.** Students, working professionals, families and health-conscious users who want a fast, low-waste answer to "what can I cook with what I have?"
+
 | Dimension | Summary |
 |---|---|
 | Project scale | Full-stack web application, ML recommendation engine, 3 input modalities, user accounts, cloud media storage, 10 functional requirements, 8 performance test cases, 5 functional acceptance tests |
 | Team | 3-person collaborative project |
-| My ownership | Idea generation, AI integration, backend, frontend, Cloudinary media storage (details in [Section 4](#4-individual-contribution-matrix)) |
 | Sustainability angle | Reduces household food waste (UN SDG 12) and supports healthier eating (UN SDG 3) |
 | Evidence in this repo | 7 architecture and design diagrams, 4 operational screenshots, measured latency results, documented limitations |
 
@@ -60,18 +82,24 @@
 <b>Working hypothesis</b>
 <br>A recommender that combines content-based filtering and NLP-parsed ingredient input across three modalities can return relevant, preference-aware recipes within an interactive latency budget (about 5 seconds end to end) on commodity hardware.
 <br><br>
+<b>Research questions</b>
+<ul>
+<li><b>RQ1.</b> Can text, voice and image input share one recommendation pipeline within a 3 to 6 second budget?</li>
+<li><b>RQ2.</b> Which pipeline stage dominates response time?</li>
+<li><b>RQ3.</b> Can personalization constraints (diet, allergy, cuisine, skill, time) be applied without breaking that budget?</li>
+</ul>
 <b>Method</b>
-<br>Content-based filtering over ingredient sets, NLP for free-text and voice-transcribed input, preference constraints (cuisine, diet, meal type, cooking time, skill, allergies), and match scoring per recipe. Model prototyping and training were done in Jupyter with Pandas and NumPy.
+<br>Content-based filtering over ingredient sets, NLP for free-text and voice-transcribed input, preference constraints, and match scoring per recipe. Model prototyping and training were done in Jupyter with Pandas and NumPy; the trained model is fixed at runtime.
 <br><br>
 <b>Contribution type</b>
-<br>Integration and evaluation rather than a new algorithm: a unified pipeline that puts three input modalities, personalization and nutrition awareness behind one recommendation API, evaluated stage by stage.
+<br>Integration and evaluation rather than a new algorithm: one unified pipeline that puts three input modalities, personalization and nutrition awareness behind a single recommendation API, evaluated stage by stage.
 <br><br>
 <b>Data governance</b>
 <ul>
 <li>Training and test data from publicly available, authorized sources, with licensing conditions respected</li>
 <li>No sensitive personal data collected; interactions used only for recommendations</li>
 <li>Nutrition values labelled informational and dataset-derived, not clinical</li>
-<li>Passwords encrypted before storage; database access restricted to authorized modules</li>
+<li>Requirement: passwords encrypted before storage; database access restricted to authorized modules</li>
 </ul>
 </td>
 <td valign="top">
@@ -96,12 +124,25 @@
 <b>Scalability posture</b>
 <ul>
 <li>Latency measured per pipeline stage (frontend to backend, model call, database fetch, end to end) to locate bottlenecks</li>
-<li>Cross-browser (Chrome, Edge, Firefox) and cross-OS (Windows 10/11, Android) compatibility tested</li>
-<li>Known scale limits documented honestly (see Section 5)</li>
+<li>Designed goals: growing recipe database, more users, new cuisines added without redeploying the model, future cloud deployment</li>
+<li>Tested configurations: Chrome, Edge and Firefox on Windows 10/11 and Android</li>
+<li>Known scale limits documented openly (Section 5.3)</li>
 </ul>
+<b>Non-functional requirements traced into tests</b>
+<br>Performance, usability, reliability, scalability, security, compatibility, maintainability and availability.
 </td>
 </tr>
 </table>
+
+### 2.1 Design decisions and trade-offs
+
+| Decision | Why | Trade-off accepted |
+|---|---|---|
+| Keep the ML model separate from the API and fixed at runtime | Recommendation logic can be updated without touching the UI or backend routes | Improvements need an offline retraining and redeploy step |
+| Content-based filtering | Works from the ingredient list alone, with no user-history cold-start problem | Quality depends on the size and diversity of the recipe dataset |
+| Cloudinary for images | Keeps binary uploads out of the database and offloads media storage | Adds an external service dependency and needs an internet connection |
+| Web Speech API for voice | No server-side audio pipeline to build or host | Works only on browsers that support the API |
+| MongoDB document model | Recipes carry nested arrays (ingredients, steps) and a nutrition object | Fewer relational guarantees than SQL; validation lives in the application layer |
 
 ---
 
@@ -127,8 +168,8 @@ flowchart LR
 </p>
 
 <p align="center">
-<img src="docs/images/system-architecture.png" width="55%" alt="System architecture"><br>
-<sub><b>Figure 2. Implementation architecture.</b> Frontend interface, input-processing module and AI recommendation engine feed the database, nutrition-analysis and recipe-suggestion modules, with results returned along the same path.</sub>
+<img src="docs/images/system-architecture.png" width="75%" alt="System architecture"><br>
+<sub><b>Figure 2. Layered architecture.</b> Client layer (web interface, voice capture, image upload), application layer (authentication, input processing, recipe API, favorites on Node.js and Express), intelligence layer (ingredient detection, recommendation engine, nutrition analysis) and a data and services layer (MongoDB Atlas, Cloudinary, public recipe dataset).</sub>
 </p>
 
 ### 3.2 Design artifacts
@@ -145,7 +186,7 @@ flowchart LR
 
 <p align="center">
 <img src="docs/images/sequence-diagram.png" width="70%" alt="Sequence diagram"><br>
-<sub><b>Figure 5. Recommendation sequence.</b> Message flow from user input through processing, matching, nutrition analysis and suggestion generation back to the interface.</sub>
+<sub><b>Figure 5. Recommendation sequence.</b> Message flow from user input through processing, matching, nutrition analysis and suggestion generation back to the interface. This is the path timed in Section 5.1.</sub>
 </p>
 
 <table align="center">
@@ -183,25 +224,60 @@ flowchart LR
 <sub><b>Figure 11. Recipe detail cards.</b> Ingredient lists, step-by-step instructions, nutrition breakdown and substitution suggestions for missing ingredients.</sub>
 </p>
 
+<!--
+OPTIONAL: add proof of the parts you built yourself, then delete this comment. Hide keys, emails and connection strings first.
+
+<p align="center">
+<img src="docs/images/cloudinary-media-library.png" width="80%" alt="Cloudinary media library"><br>
+<sub><b>Figure 12. Cloud media storage.</b> Uploaded ingredient images stored and served through Cloudinary.</sub>
+</p>
+
+<p align="center">
+<img src="docs/images/mongodb-collections.png" width="80%" alt="MongoDB Atlas collections"><br>
+<sub><b>Figure 13. Data layer.</b> Recipe, user and preference collections in MongoDB Atlas.</sub>
+</p>
+-->
+
 ---
 
-## 4. Individual Contribution Matrix
+## 4. Team Collaboration and Delivery
 
-The project was delivered by a 3-person team. **Momina Ramzan** collaborated across the full lifecycle, from ideation to build, and owned the cloud media-storage integration.
+This was a fully collaborative project. The three of us worked as one team across every stage, from the first idea to the tested system, sharing the work, the decisions and the integration.
 
-| Feature / Module | Assigned Lead | Engineering Tasks Involved |
-|---|---|---|
-| Ideation and requirements | Shared: **Momina (core contributor)** and team | Problem framing, competitor review, feature scoping, functional requirement definition |
-| AI integration (recommendation engine) | Shared: **Momina (core contributor)** and team | Connecting the trained ML model to the API, ingredient parsing, preference-aware ranking, match scoring |
-| Backend API | Shared: **Momina (core contributor)** and team | Node.js and Express.js services, recommendation endpoint, request validation, error handling, MongoDB integration |
-| Authentication and user data | Shared: **Momina (core contributor)** and team | Registration and login flows, credential handling, favorites and nutrition-goal persistence |
-| Frontend interface | Shared: **Momina (core contributor)** and team | HTML, CSS and JavaScript UI, input forms, preference panel, results and recipe detail views, responsive layout |
-| Multi-modal input handling | Shared: **Momina (core contributor)** and team | Text entry, voice capture via Web Speech API, image upload flow, input validation |
-| Cloud image storage | **Momina (owner)** | Cloudinary integration for storing uploaded images through the backend |
-| Testing and evaluation | Team | Performance test cases, functional acceptance tests, compatibility and exception-handling checks |
-| Documentation and design modelling | Team | UML artifacts, architecture views, test documentation |
+### 4.1 How We Built It Together
 
-<!-- EDITING NOTE: change "Shared" to "Momina (lead)" only for modules you personally led. Keep every row true. -->
+| Stage | What we did together | Stack and tools | Proof in this repo |
+|---|---|---|---|
+| Ideation and research | Framed the problem, reviewed existing recipe tools, agreed the scope and the gap to target | Gap analysis, literature review | Sections 1 and 2 |
+| Requirements and design | Defined functional requirements FR-01 to FR-10 and the quality requirements, and modelled the system in UML | UML, requirements analysis | Figures 3 to 7 |
+| AI integration | Connected the trained ML model to the API: ingredient parsing, preference-aware ranking and match scoring | Node.js, trained ML model, NLP | Figures 5 and 10; TC-P05 1.6 s against a 2 s target |
+| Backend | Built the recommendation endpoint, request validation, error handling and database integration | Node.js, Express.js, MongoDB Atlas | TC-P06 0.7 s against 1 s; TC-P07 4.3 s end to end against 5 s |
+| Frontend | Built the ingredient form, preference panel, results views and recipe-detail cards | HTML, CSS, JavaScript | Figures 8 to 11 |
+| Multi-modal input and cloud media | Implemented text, voice and image input, with uploaded photos stored through Cloudinary | JavaScript, Web Speech API, Cloudinary | Figure 9; TC-03 and TC-04 passed; TC-P03 3.4 s, TC-P04 5.2 s |
+| Authentication and user data | Built registration, login, favorites and nutrition-goal persistence | Node.js, Express.js, MongoDB | FR-01, FR-02, FR-07, FR-08, FR-10; TC-01 and TC-05 passed |
+| Testing and evaluation | Designed and ran performance, acceptance and installation tests, then analysed the image-pipeline miss | Test design, stage-wise latency protocol | Section 5 |
+| Documentation | Produced the architecture views, test documentation and this repository | UML, technical writing | Figures 1 to 7 |
+
+**How we worked**
+
+- Planned the delivery with a Gantt chart and a work breakdown structure across six phases: planning, design, development, testing, deployment and documentation
+- Kept the frontend, backend and AI model as independent modules, so each part could be built, tested and integrated without blocking the others
+- Used Git and GitHub for shared version control
+- Measured latency stage by stage as a team, so a failed target (the image path) could be traced to its cause instead of guessed at
+
+**Outcome:** 5 of 5 acceptance tests passed and 7 of 8 latency targets met (Section 5).
+### 4.2 Skills demonstrated
+
+| Skill area | Evidence |
+|---|---|
+| Backend engineering | REST-style Express.js API, validation, error handling, database integration |
+| AI and ML integration | Trained model wired into a production-style API with parsing, ranking and match scoring |
+| Cloud services | Cloudinary media storage; MongoDB Atlas data layer |
+| Frontend development | Multi-step input UI with preference filters and detail views |
+| Data modelling | Document schema for recipes, users, preferences, goals and favorites (Figure 6) |
+| Testing and quality | Stage-wise latency protocol, acceptance cases, exception-handling scenarios |
+| Research method | Gap analysis of 17 tools, working hypothesis, research questions, threats to validity |
+| Collaboration | Shared ownership of a 3-person delivery, with one module owned individually |
 
 ---
 
@@ -220,7 +296,13 @@ The project was delivered by a 3-person team. **Momina Ramzan** collaborated acr
 | TC-P07 | End to end, text plus preferences | < 5.0 s | 4.3 s | +14% | Met |
 | TC-P08 | End to end, image plus preferences | < 5.0 s | 7.1 s | -42% | **Not met** |
 
-**Summary:** 7 of 8 latency targets met. The one miss (image pipeline) isolates image processing as the primary optimization target.
+**Summary:** 7 of 8 latency targets met.
+
+**What the numbers say (answers to the research questions)**
+
+- **RQ1.** Text and voice fit their budgets. Image input meets its own stage target (5.2 s against 6 s) but not the full end-to-end budget (7.1 s against 5 s), so the shared pipeline works for two modalities and needs optimization for the third.
+- **RQ2.** The model call (1.6 s) and database fetch (0.7 s) are small. The image stage alone measured 5.2 s, roughly three quarters of the 7.1 s end-to-end time, so **image processing is the primary bottleneck**.
+- **RQ3.** Text input with the full preference set completed in 4.3 s against a 5 s target, so personalization constraints fit inside the budget.
 
 ### 5.2 Functional acceptance
 
@@ -232,12 +314,13 @@ The project was delivered by a 3-person team. **Momina Ramzan** collaborated acr
 | TC-04 | Image processing | Recipe generation from uploaded photo | Pass |
 | TC-05 | Favorites | Save recipe to favorites | Pass |
 
-**5 of 5 acceptance tests passed.** Compatibility was verified on Chrome, Edge and Firefox, on Windows 10, Windows 11 and Android.
+**5 of 5 acceptance tests passed.** A six-step installation procedure (install, first launch, all input methods, recommendation, settings persistence, uninstall) also passed.
 
 ### 5.3 Evaluation scope and threats to validity
 
-- **Environment:** Latency figures come from a local development setup (Intel Core i5, 8 GB RAM, Windows 10, localhost Node.js server, 50 Mbps broadband). They are not production benchmarks.
+- **Environment:** Latency figures come from a local development setup (Intel Core i5, 8 GB RAM, Windows 10, localhost Node.js server, 50 Mbps broadband) and are not production benchmarks.
 - **Not measured:** Recommendation precision and recall against a labelled ground-truth set were not evaluated. Relevance was assessed through functional and usability testing.
+- **Load:** Load scenarios (repeated requests, large datasets, concurrent users, batch image upload) were defined, but throughput figures were not reported.
 - **Dataset dependence:** Recommendation quality and nutrition values depend on the size and diversity of the recipe dataset; nutrition values are estimates.
 - **Modality gap:** Image detection degrades on blurry or poorly lit photos.
 
@@ -258,9 +341,9 @@ The project was delivered by a 3-person team. **Momina Ramzan** collaborated acr
 ```
 
 ### 6.2 Reproduction roadmap
- 
+
 Independent researchers can validate the documented architecture without the private source:
- 
+
 ```mermaid
 flowchart TD
     A[1. Review design artifacts<br/>Figures 1-7] --> B[2. Provision environment<br/>Node.js, MongoDB, Cloudinary account]
@@ -281,11 +364,21 @@ flowchart TD
 | 6 | Measure four stages separately: frontend to backend, backend and model call, database retrieval, total end to end. Use the same input scenarios as TC-P01 to TC-P08 | Section 5.1 |
 | 7 | Report deviations and the environment used. Extend with precision and recall against a labelled set, which this project did not cover | Section 5.3 |
 
-### 6.3 Intellectual property
+### 6.3 Where to verify each claim
+
+| Claim | Evidence |
+|---|---|
+| Three input modalities | Figure 9; TC-02, TC-03, TC-04 |
+| Personalized, nutrition-aware results | Figures 10 and 11 |
+| Latency results | Section 5.1 |
+| Data model | Figure 6 |
+| Working system | Figures 8 to 11 |
+
+### 6.4 Intellectual property
 
 Documentation is shared for portfolio and educational purposes. Copyright remains with the project team. Please do not reuse text, diagrams or screenshots without permission.
 
-### 6.4 Roadmap
+### 6.5 Roadmap
 
 - Labelled evaluation set for precision, recall and ranking quality
 - Faster image pipeline to meet the 5 s end-to-end target
